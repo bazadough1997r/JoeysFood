@@ -1,4 +1,5 @@
 import "./SearchBar.css";
+import PropTypes from "prop-types";
 
 const SearchBar = ({ changeHandler, query }) => {
   return (
@@ -10,6 +11,11 @@ const SearchBar = ({ changeHandler, query }) => {
       />
     </div>
   );
+};
+
+SearchBar.propTypes = {
+  query: PropTypes.string,
+  changeHandler: PropTypes.func,
 };
 
 export default SearchBar;

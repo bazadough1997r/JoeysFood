@@ -10,6 +10,7 @@ const RecipeInfo = ({recipe, toParagraph}) => {
             "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"
           }
           alt="Recipe's Result"
+          loading="lazy"
         />
       </div>
       <h3>{recipe?.title || ""}</h3>

@@ -13,6 +13,7 @@ const Header = () => {
         src={process.env.PUBLIC_URL + "/assets/recipesLogo.png"}
         alt="Joey's Food Logo"
         onClick={clickHandler}
+        loading="lazy"
       />
         <hr />
     </header>

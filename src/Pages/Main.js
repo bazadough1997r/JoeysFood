@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { searchRecipes, getRecipes } from "../Services";
 import {
   RecipesCard,
@@ -9,6 +9,7 @@ import {
   RecipesList,
 } from "../Components";
 import { useNavigate } from "react-router-dom";
+import _ from "lodash";
 import "./Main.css";
 
 const Main = () => {
@@ -34,10 +35,18 @@ const Main = () => {
     fetchData();
   }, [error]);
 
-  const changeHandler = async (event) => {
+  const debouncedOnChange = useMemo(
+    () =>
+      _.debounce(async (q) => {
+        const data = await searchRecipes(q);
+        setResults(data);
+      }, 500),
+    []
+  );
+
+  const changeHandler = (event) => {
     setQuery(event.target.value);
-    const data = await searchRecipes(event.target.value);
-    setResults(data);
+    debouncedOnChange(event.target.value);
   };
 
   const clickHandler = (id) => {
@@ -77,9 +86,9 @@ const Main = () => {
       <SearchBar changeHandler={changeHandler} query={query} />
       {error ? <Error msg={errorMsg} /> : <></>}
 
-      {results.length ? (
+      {results?.length ? (
         <RecipesCard>{mappingSearchResults()}</RecipesCard>
-      ) : results.length === 0 && query.length > 0 ? (
+      ) : results?.length === 0 && query?.length > 0 ? (
         <NotFound />
       ) : (
         <RecipesList mappingRandom={mappingRandom()} />
